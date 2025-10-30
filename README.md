@@ -48,7 +48,7 @@ npm run build
 ---
 
 ## 🧠 상태관리 구조 (Jotai)
-
+```
 // store/tasksAtom.ts
 import { atom } from "jotai";
 import { Task } from "@/types";
@@ -94,4 +94,4 @@ Supabase 연동 및 사용자 인증 추가
 
 📄 라이선스
 MIT © 윤찬희
-
+```
