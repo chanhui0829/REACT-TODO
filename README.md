@@ -45,6 +45,8 @@ npm run dev
 # 3️⃣ 프로덕션 빌드
 npm run build
 
+---
+
 🧠 상태관리 구조 (Jotai)
 
 // store/tasksAtom.ts
