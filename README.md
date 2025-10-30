@@ -59,6 +59,8 @@ export const taskAtom = atom<Task | null>(null);
 tasksAtom : 전체 Task 리스트 전역 관리
 taskAtom : 선택된 단일 Task 관리
 
+```
+
 ---
 
 ## 🧱 Next.js App Router 구조
