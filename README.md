@@ -59,6 +59,8 @@ export const taskAtom = atom<Task | null>(null);
 tasksAtom : 전체 Task 리스트 전역 관리
 taskAtom : 선택된 단일 Task 관리
 
+---
+
 ## 🧱 Next.js App Router 구조
 Next.js의 App Router(src/app/)는 파일 시스템 기반 라우팅을 제공합니다.
 
@@ -77,6 +79,8 @@ useRouter 훅을 통한 클라이언트 내비게이션
 
 서버 컴포넌트(Server Component)와 클라이언트 컴포넌트(Client Component) 분리
 
+---
+
 ## 🔮 개선 계획
 atomWithStorage로 로컬스토리지 완전 통합
 
@@ -85,6 +89,8 @@ Supabase 연동 및 사용자 인증 추가
 다크모드 / 반응형 UI
 
 테스트 코드 및 CI/CD 자동화
+
+---
 
 📄 라이선스
 MIT © 윤찬희
