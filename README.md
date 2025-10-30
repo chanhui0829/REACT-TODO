@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 React-TODO (Next.js + Jotai)
 
-## Getting Started
+> **Next.js App Router 기반의 React TODO 관리 앱**  
+> 전역 상태관리는 **Jotai**, 스타일링은 **TailwindCSS**로 구현하였습니다.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 프로젝트 개요
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+간결한 구조와 전역 상태 관리를 결합한 Todo 애플리케이션입니다.  
+Next.js의 **App Router**를 기반으로 라우팅을 구성하고,  
+**Jotai**를 이용해 작업(Task) 데이터를 전역적으로 관리합니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚙️ 주요 기능
 
-## Learn More
+- ✨ **Todo 추가 / 삭제 / 완료 토글**
+- 🔍 **전체 / 완료 / 미완료 필터링**
+- 🧠 **Jotai 기반 전역 상태관리**
+- 💾 **LocalStorage를 통한 데이터 지속화**
+- 🌐 **Next.js App Router 라우팅 구조**
+- 🎨 **TailwindCSS 기반 반응형 UI**
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧩 기술 스택
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| 항목 | 사용 기술 |
+|------|-------------|
+| 프레임워크 | **Next.js (App Router)** |
+| 프론트엔드 | **React + TypeScript** |
+| 상태관리 | **Jotai** |
+| 스타일링 | **TailwindCSS** |
+| 빌드/배포 | **Vercel / GitHub Pages** |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📂 디렉토리 구조
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
