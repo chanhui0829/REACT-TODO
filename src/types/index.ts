@@ -4,6 +4,7 @@ export interface Task {
   start_date: Date | undefined;
   end_date: Date | undefined;
   boards: Board[];
+  created_at: string;
 }
 
 export interface Board {

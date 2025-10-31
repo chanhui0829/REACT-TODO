@@ -13,7 +13,8 @@ function useGetTaskById(taskId: number) {
       const { data, status, error } = await supabase
         .from("tasks")
         .select("*")
-        .eq("id", taskId);
+        .eq("id", taskId)
+        .order("created_at", { ascending: false }); // 🔹 최신순 정렬
 
       if (data && status === 200) setTask(data[0]);
 

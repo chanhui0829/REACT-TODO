@@ -1,11 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
-
 import { supabase } from "@/utils/supabase/client";
 import { toast } from "sonner";
+import { useSetAtom } from "jotai";
+import { isDirtyAtom } from "@/store/atoms";
 
 function useCreateTask() {
   const router = useRouter();
+  const setIsDirty = useSetAtom(isDirtyAtom);
+
   const createTask = async () => {
     try {
       const { data, error, status } = await supabase
@@ -20,26 +23,23 @@ function useCreateTask() {
         ])
         .select();
 
+      if (error) throw error;
+
       if (data && status === 201) {
-        // 올바르게 tasks 테이블에 ROw 데이터 한 줄이 올바르게 생성이되면 실행
-        toast("새로운 TASK가 생성이 되었습니다.", {
+        toast("새로운 TASK가 생성되었습니다.", {
           description: "나만의 TODO BOARD를 생성해보세요!",
         });
+
+        // ✅ 새로 생성된 Todo는 '저장되지 않은 변경 상태'로 표시
+        setIsDirty(true);
+
         router.push(`/task/${data[0].id}`);
       }
-
-      if (error) {
-        toast("에러가 발생했습니다.", {
-          description: `Supabase 오류: ${error.message} || 알 수 없는 오류`,
-        });
-      }
     } catch (error) {
-      console.log(error);
-      toast("네트워크 오류.", {
-        description: "서버와 연결할 수 없습니다. 다시 시도해주세요.",
-      });
+      console.error(error);
     }
   };
+
   return createTask;
 }
 

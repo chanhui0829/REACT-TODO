@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -20,13 +21,14 @@ interface Props {
 }
 
 function LabelDatePicker({ label, readonly, value, onChange }: Props) {
+  const [open, setOpen] = useState(false);
   return (
     <div className="max-w-64 flex items-center gap-3">
       <span className="text-sm font-medium leading-none text-[#6d6d6d]">
         {label}
       </span>
       {/* Shadcn UI - calendar */}
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
@@ -44,7 +46,10 @@ function LabelDatePicker({ label, readonly, value, onChange }: Props) {
             <Calendar
               mode="single"
               selected={value}
-              onSelect={onChange}
+              onSelect={(date) => {
+                onChange?.(date);
+                setOpen(false); // 날짜 선택 시 자동 닫기
+              }}
               initialFocus
               fromDate={new Date()} // 현재 날짜로부터 과거 날짜를 비활성화합니다.
             ></Calendar>
