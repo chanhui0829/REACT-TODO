@@ -1,7 +1,7 @@
-#  📑 React-TODO Board
+#  📑 REACT-TODO Board
 
 ## ✅ 프로젝트 개요
-- **프로젝트명**: React-TODO Board  
+- **프로젝트명**: REACT-TODO Board  
 - **설명**: `React + Next.js + Supabase + Jotai + shadcn UI`를 이용해 만든 개인용 TODO 관리 애플리케이션입니다.  
   - 하나의 TASK 안에 여러 BOARD(하위 작업)를 생성하고 진행 상태를 관리할 수 있습니다.  
   - 시작일/종료일을 설정하고, 진행률(Progress bar)도 볼 수 있습니다.  
