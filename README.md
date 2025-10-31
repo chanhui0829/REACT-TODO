@@ -16,13 +16,13 @@
 - 기타 유틸: nanoid 등
 
 ## 📂 폴더 구조
-/app – Next.js 앱 루트 (혹은 pages)
-/components – UI 컴포넌트 모음
-/hooks/apis – API 통신 훅들 (Supabase + 커스텀 로직)
-/store – Jotai atom 정의
-/types – 타입 정의 파일 (Task, Board 등)
-/utils – 유틸 함수, Supabase 클라이언트 설정 등
-/styles – 전역 및 모듈 CSS/SCSS
+/app – Next.js 앱 루트 (혹은 pages)\
+/components – UI 컴포넌트 모음\
+/hooks/apis – API 통신 훅들 (Supabase + 커스텀 로직)\
+/store – Jotai atom 정의\
+/types – 타입 정의 파일 (Task, Board 등)\
+/utils – 유틸 함수, Supabase 클라이언트 설정 등\
+/styles – 전역 및 모듈 CSS/SCSS\
 
 
 ## 🔧 주요 기능
