@@ -24,8 +24,6 @@
 /utils – 유틸 함수, Supabase 클라이언트 설정 등
 /styles – 전역 및 모듈 CSS/SCSS
 
-markdown
-코드 복사
 
 ## 🔧 주요 기능
 - TASK 생성, 제목/시작일/종료일 설정  
@@ -43,6 +41,7 @@ git clone https://github.com/chanhui0829/REACT-TODO.git
 cd REACT-TODO
 npm install   # 또는 yarn
 npm run dev   # 개발 모드로 실행 (http://localhost:3000)
+
 🚀 배포
 Next.js 앱을 Vercel, Netlify 등에 배포 가능
 
