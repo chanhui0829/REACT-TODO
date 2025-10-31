@@ -69,45 +69,5 @@ Supabase 테이블 구조 (tasks, boards 등) 미리 만들어야 합니다.
 
 테스트 코드 (Jest, React Testing Library) 추가
 
-🧾 라이선스
-MIT © 2025 Chan Hui
+🧾 개발자 윤찬희
 
-markdown
-코드 복사
-
----
-
-## 🔍 코드/구조 최적화 제안사항
-프로젝트를 보진 못했지만, 그동안 주신 코드 조각 기반으로 보았을 때 **개선할 수 있는 부분들**은 다음과 같아요.
-
-1. **타입 정의 강화**  
-   - `Task` 타입에 `created_at: string` 등 DB 자동 생성 필드 포함  
-   - `Board` 타입에도 시작/종료일 필드 등 명확히 정의  
-   - Supabase 반환 타입을 제네릭으로 명시해 타입 안전성 높이기 (예: `.single<Task>()`)
-
-2. **API 훅 통합 및 에러 처리를 통일화**  
-   - `useGetTaskById`, `useGetTasks`, `useCreateTask` 등 훅마다 에러/로딩 처리 구조 통일  
-   - 예: `useQuery` 패턴이나 `react-query` 도입도 고려
-
-3. **상태관리 개선**  
-   - `onSaveAtom`, `isDirtyAtom` 등 Jotai atom 사용 좋은데, “현재 TASK 상태(taskAtom)”도 전역으로 묶으면서 변경 흐름 깔끔히  
-   - `boards`, `title`, `startDate`, `endDate` 등을 로컬 상태에만 두기보다는 atom으로 관리하면 페이지 전환 시에도 상태 유지 가능
-
-4. **UI/UX 리팩토링**  
-   - 사이드바 `tasks` 목록 정렬, 검색, 페이지 전환 흐름 매끄럽게  
-   - 날짜 선택 팝오버 닫힘, 모바일 대응, 접근성(ARIA) 고려  
-   - 로딩 상태 표시 (예: 데이터 fetch 중 spinner)
-
-5. **데이터베이스 쿼리 최적화**  
-   - `.select("*")` 대신 필요한 필드만 조회하여 응답 크기 줄이기  
-   - 필요한 인덱스가 있는지 Supabase 테이블 검사 (`created_at`, `id` 등)
-
-6. **보안 및 환경설정**  
-   - Supabase 키는 반드시 `.env.local` 등 숨기고 GitHub에는 노출하지 않기  
-   - 배포 환경에서 CORS, 인증 등의 설정 고려
-
-7. **테스트 및 배포 설정**  
-   - 중요 컴포넌트에 유닛 테스트 추가  
-   - 배포 자동화 (예: GitHub Actions) 설정하면 안정성 증가
-
----
