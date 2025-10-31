@@ -22,7 +22,7 @@
 /store – Jotai atom 정의\
 /types – 타입 정의 파일 (Task, Board 등)\
 /utils – 유틸 함수, Supabase 클라이언트 설정 등\
-/styles – 전역 및 모듈 CSS/SCSS\
+/styles – 전역 및 모듈 CSS/SCSS
 
 
 ## 🔧 주요 기능
@@ -41,15 +41,9 @@ git clone https://github.com/chanhui0829/REACT-TODO.git
 cd REACT-TODO
 npm install   # 또는 yarn
 npm run dev   # 개발 모드로 실행 (http://localhost:3000)
-
-🚀 배포
-Next.js 앱을 Vercel, Netlify 등에 배포 가능
-
-.env 파일에 NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY 등 환경변수 설정 필요
-
-Supabase 테이블 구조 (tasks, boards 등) 미리 만들어야 합니다.
-
-🛠 개선사항 및 로드맵
+```
+## 🛠 개선사항 및 로드맵
+```
 ✅ 최신생성순 정렬: TASK 목록을 최신 생성순으로 보여주기
 
 ✅ 입력 변경 시 ‘저장 여부’ 상태 관리 개선
