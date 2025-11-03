@@ -12,7 +12,7 @@ function InitPage() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-5 mb-6">
-        <span className=" text-2xl font-semibold tracking-tight">사용법</span>
+        <span className=" text-2xl font-semibold tracking-tight">사용방법</span>
         <div className="flex flex-col items-center gap-3">
           <small className="text-sm font-normal leading-none">
             1. 새로운 TODO 생성

@@ -134,11 +134,11 @@ export default function TaskPage() {
             <ChevronLeft />
           </Button>
           <div className="flex items-center gap-2">
-            <Button className="w-12 bg-gray-600" onClick={handleSave}>
+            <Button className="w-12 bg-gray-400" onClick={handleSave}>
               저장
             </Button>
             <DeleteTaskPopup>
-              <Button className="w-12 text-rose-600 bg-red-50 hover:bg-rose-50 ">
+              <Button className="w-12 text-rose-600 bg-red-100 hover:bg-rose-300 ">
                 삭제
               </Button>
             </DeleteTaskPopup>
@@ -170,7 +170,7 @@ export default function TaskPage() {
         <div className={styles.header__bottom}>
           <div className="flex items-center gap-5">
             <LabelDatePicker
-              label="From"
+              label="시작일"
               value={startDate}
               onChange={(d) => {
                 setStartDate(d);
@@ -178,16 +178,17 @@ export default function TaskPage() {
               }}
             />
             <LabelDatePicker
-              label="To"
+              label="종료일"
               value={endDate}
               onChange={(d) => {
                 setEndDate(d);
                 markDirty();
               }}
+              startDate={startDate}
             />
           </div>
           <Button
-            className="w-32 text-white bg-[#58A5E4] hover:bg-[#5FB4F9]"
+            className="w-28 text-white bg-[#58A5E4] hover:bg-[#5FB4F9]"
             onClick={handleAddBoard}
           >
             내용 추가

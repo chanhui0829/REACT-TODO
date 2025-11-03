@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useCreateBoard, useGetTaskById } from "@/hooks/apis";
+import { useGetTaskById, useUpdateBoard } from "@/hooks/apis";
 import { useAtomValue } from "jotai";
 import { taskAtom } from "@/store/atoms";
 
@@ -10,7 +10,6 @@ import MDEditor from "@uiw/react-md-editor";
 //Component
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -33,7 +32,7 @@ interface Props {
 
 function MarkdownDialog({ board, children }: Props) {
   const { id } = useParams();
-  const updateBoard = useCreateBoard();
+  const updateBoard = useUpdateBoard();
   const task = useAtomValue(taskAtom);
   const { getTaskById } = useGetTaskById(Number(id));
 
@@ -101,22 +100,17 @@ function MarkdownDialog({ board, children }: Props) {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-
-      <DialogContent style={{ padding: 16 + "px" }}>
+      <DialogContent style={{ padding: 12 + "px", margin: 24 + "px" }}>
         <DialogHeader>
           <DialogTitle>
-            <div className="flex items-center justify-center gap-2">
-              <Checkbox
-                className="w-5 min-w-5 h-5"
-                checked={isCompleted}
-                onCheckedChange={(checked) => {
-                  if (typeof checked == "boolean") setIsCompleted(checked);
-                }}
-              />
+            <div className="flex items-center justify-start gap-2 ">
+              <p className="!font-semibold text-[15px] text-muted-foreground ">
+                제목 :
+              </p>
               <input
                 type="text"
                 placeholder="게시물의 제목을 입력하세요."
-                className="w-full text-l outline-none bg-transparent"
+                className="w-7/8 text-[16px] outline-none bg-transparent border-1 rounded-sm !p-0.5 !pl-2 "
                 style={{ padding: 0 + "px" }}
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
@@ -130,11 +124,16 @@ function MarkdownDialog({ board, children }: Props) {
         {/* 캘린더박스 */}
         <div className="flex items-center gap-5 ">
           <LabelDatePicker
-            label="From"
+            label="시작일"
             value={startDate}
             onChange={setStartDate}
           />
-          <LabelDatePicker label="To" value={endDate} onChange={setEndDate} />
+          <LabelDatePicker
+            label="종료일"
+            value={endDate}
+            onChange={setEndDate}
+            startDate={startDate}
+          />
         </div>
         <Separator />
         {/* 마크다운 에디터 */}

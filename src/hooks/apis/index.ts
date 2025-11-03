@@ -5,3 +5,5 @@ export { useGetTaskById } from "./useGetTaskById";
 export { useDeleteTask } from "./useDeleteTask";
 export { useDeleteBoard } from "./useDeleteBoard";
 export { useSearch } from "./useSearch";
+export { useToggleComplete } from "./useToggleComplete";
+export { useUpdateBoard } from "./useUpdateBoard";

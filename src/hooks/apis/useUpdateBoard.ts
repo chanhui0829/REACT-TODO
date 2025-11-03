@@ -4,7 +4,7 @@ import { supabase } from "@/utils/supabase/client";
 import { Board } from "@/types";
 import { toast } from "sonner";
 
-function useCreateBoard() {
+function useUpdateBoard() {
   const createBoard = async (
     taskId: number,
     column: string,
@@ -21,8 +21,8 @@ function useCreateBoard() {
 
       if (data && status === 200) {
         // 올바르게 tasks 테이블에 ROw 데이터 한 줄이 올바르게 생성이되면 실행
-        toast("새로운 콘텐츠를 생성하였습니다 ✅", {
-          description: "나만의 콘텐츠를 완성해보세요!!",
+        toast("콘텐츠가 변경되었습니다 ✅", {
+          description: "콘텐츠 업데이트가 완료되었습니다.!!",
         });
       }
 
@@ -41,4 +41,4 @@ function useCreateBoard() {
   return createBoard;
 }
 
-export { useCreateBoard };
+export { useUpdateBoard };

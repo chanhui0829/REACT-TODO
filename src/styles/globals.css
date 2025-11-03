@@ -124,3 +124,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* main.scss 또는 globals.css */
+.markdown-dialog .checkbox-complete {
+  display: none !important;
+}
