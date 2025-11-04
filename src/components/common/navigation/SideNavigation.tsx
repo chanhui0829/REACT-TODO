@@ -11,6 +11,7 @@ import { isDirtyAtom, onSaveAtom } from "@/store/atoms";
 import { ConfirmNavigationDialog } from "@/components/ui/dialog/confirmnavigationdialog";
 import { toast } from "sonner";
 import { supabase } from "@/utils/supabase/client";
+import { CalendarPlus } from "lucide-react";
 
 function SideNavigation() {
   const router = useRouter();
@@ -118,16 +119,16 @@ function SideNavigation() {
             className="text-[#58A5E4] bg-white border border-[#58A5E4] hover:bg-[#F2F7FA] hover:shadow-md"
             onClick={handleCreateTask}
           >
-            새로운 Todo 만들기
+            <CalendarPlus /> 일정 추가
           </Button>
 
           {/* Task 목록 UI */}
-          <div className="flex flex-col mt-4 gap-2">
-            <small className="text-sm font-medium leading-none text-[#a6a6a6]">
+          <div className="flex-1 mt-4 overflow-y-auto pr-1 pb-4 box-border">
+            <small className="text-sm font-medium leading-none text-[#a6a6a6] ">
               <span className="text-neutral-700">Chan님</span>의 TASKs
             </small>
 
-            <ul className="flex flex-col">
+            <ul className="flex flex-col gap-0.5 !mt-2">
               {sortedTasks.length === 0 ? (
                 <li className="bg-[#f5f5f5] min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
                   <div className="h-[6px] w-[6px] rounded-full bg-neutral-400 "></div>
@@ -140,8 +141,8 @@ function SideNavigation() {
                       key={task.id}
                       onClick={() => handleTaskClick(task.id)}
                       className={`${
-                        task.id === Number(id) && "bg-[#f5f5f5]"
-                      } min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer `}
+                        task.id === Number(id) && "!bg-[#f5f5f5]"
+                      } min-h-9 flex items-center !gap-2 !py-2 !px-[10px] rounded-sm text-sm cursor-pointer `}
                     >
                       <div
                         className={`${
@@ -152,7 +153,9 @@ function SideNavigation() {
                       ></div>
                       <span
                         className={`${
-                          task.id !== Number(id) && `text-neutral-400`
+                          task.id !== Number(id)
+                            ? `text-neutral-400`
+                            : `text-neutral-800`
                         }`}
                       >
                         {task.title ? task.title : "등록된 제목이 없습니다."}

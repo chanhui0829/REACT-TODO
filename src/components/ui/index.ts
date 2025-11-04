@@ -45,6 +45,8 @@ export { Toaster } from "./sonner/sonner";
 
 export { LabelDatePicker } from "./date-picker/LabelDatePicker";
 
+export { Sheet, SheetTrigger, SheetClose, SheetContent } from "./sheet/sheet";
+
 export {
   AlertDialog,
   AlertDialogPortal,

@@ -77,7 +77,7 @@ function BoardCard({ board }: Props) {
 
   return (
     <Card
-      className="w-full flex flex-col items-center p-2 gap-4"
+      className="w-full flex flex-col items-center !p-6 gap-4"
       style={{ padding: "16px" }}
     >
       {/* 제목 영역 */}
@@ -138,8 +138,8 @@ function BoardCard({ board }: Props) {
       </div>
 
       {/* 날짜 + 삭제버튼 */}
-      <div className="w-3xl flex items-center justify-between">
-        <div className="flex items-center gap-5">
+      <div className="w-full flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-5 flex-1">
           <LabelDatePicker
             label={"시작일"}
             readonly={true}
@@ -152,17 +152,19 @@ function BoardCard({ board }: Props) {
             startDate={board.startDate}
           />
         </div>
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          onClick={() => setIsShowContent(!isShowContent)}
-        >
-          {isShowContent ? (
-            <ChevronUp className="text-[#6d6d6d]" />
-          ) : (
-            <ChevronDown className="text-[#6d6d6d]" />
-          )}
-        </Button>
+        <div className="sm:flex sm:items-end sm:justify-end">
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            onClick={() => setIsShowContent(!isShowContent)}
+          >
+            {isShowContent ? (
+              <ChevronUp className="text-[#6d6d6d]" />
+            ) : (
+              <ChevronDown className="text-[#6d6d6d]" />
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* 콘텐츠 추가 / 수정 박스 */}

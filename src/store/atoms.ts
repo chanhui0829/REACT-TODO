@@ -1,3 +1,4 @@
+"use client";
 import { Task } from "@/types";
 import { atom } from "jotai";
 

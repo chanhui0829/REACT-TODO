@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
-
-//Component
-import { SideNavigation } from "@/components/common";
-
-//Shadcn UI
 import { Toaster } from "@/components/ui/sonner/sonner";
-
-//전역 CSS
+import { SideNavigation, MobileDrawer } from "@/components/common";
 import "@/styles/globals.css";
 import "@/styles/main.scss";
 
@@ -20,16 +14,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ko">
       <body className={NOTO_SANS_KR.className}>
-        <div className="page">
-          <SideNavigation />
-          <main className="page__main">{children}</main>
+        <div className="h-screen w-full flex flex-1 flex-col lg:flex-row text-white">
+          {/* 📱 모바일 Drawer (Client Component) */}
+          <MobileDrawer />
+
+          {/* 💻 데스크탑용 사이드바 */}
+          <aside className="flex-1 h-full hidden lg:block w-[300px] shrink-0 ">
+            <SideNavigation />
+          </aside>
+
+          {/* 🌿 메인 */}
+          <main className=" w-full sm:p-6 md:p-8 text-zinc-800">
+            {children}
+          </main>
         </div>
+
         <Toaster />
       </body>
     </html>

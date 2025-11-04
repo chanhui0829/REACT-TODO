@@ -15,12 +15,12 @@ const SearchBar = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         style={{ padding: 12 + "px" }}
       >
-        <SearchIcon className="h-[18px] w-[18px]" />
+        <SearchIcon className="h-[18px] w-[18px] text-gray-500" />
         <input
           {...props}
           type="search"
           ref={ref}
-          className="w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full p-2 text-gray-600 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         />
       </div>
     );

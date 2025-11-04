@@ -129,6 +129,7 @@ export default function TaskPage() {
           <Button
             variant="outline"
             size="icon"
+            className="text-gray-400"
             onClick={() => router.push("/")}
           >
             <ChevronLeft />
@@ -168,31 +169,34 @@ export default function TaskPage() {
         </div>
 
         <div className={styles.header__bottom}>
-          <div className="flex items-center gap-5">
-            <LabelDatePicker
-              label="시작일"
-              value={startDate}
-              onChange={(d) => {
-                setStartDate(d);
-                markDirty();
-              }}
-            />
-            <LabelDatePicker
-              label="종료일"
-              value={endDate}
-              onChange={(d) => {
-                setEndDate(d);
-                markDirty();
-              }}
-              startDate={startDate}
-            />
+          <div className={styles["header__bottom__group"]}>
+            <div className={styles["header__bottom__dates"]}>
+              <LabelDatePicker
+                label="시작일"
+                value={startDate}
+                onChange={(d) => {
+                  setStartDate(d);
+                  markDirty();
+                }}
+              />
+              <LabelDatePicker
+                label="종료일"
+                value={endDate}
+                onChange={(d) => {
+                  setEndDate(d);
+                  markDirty();
+                }}
+                startDate={startDate}
+              />
+            </div>
+
+            <Button
+              className="w-28 text-white bg-[#58A5E4] hover:bg-[#5FB4F9]"
+              onClick={handleAddBoard}
+            >
+              내용 추가
+            </Button>
           </div>
-          <Button
-            className="w-28 text-white bg-[#58A5E4] hover:bg-[#5FB4F9]"
-            onClick={handleAddBoard}
-          >
-            내용 추가
-          </Button>
         </div>
       </div>
 
@@ -206,7 +210,7 @@ export default function TaskPage() {
         ) : (
           <div className={styles.body__noData}>
             <h3 className="text-2xl font-semibold">등록된 내용이 없습니다.</h3>
-            <small className="text-sm text-[#6D6D6D] mt-3 mb-7">
+            <small className="text-sm text-[#6D6D6D] mt-3">
               버튼을 클릭하여 내용을 추가해보세요!
             </small>
             <button onClick={handleAddBoard}>

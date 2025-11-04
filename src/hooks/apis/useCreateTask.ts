@@ -26,8 +26,8 @@ function useCreateTask() {
       if (error) throw error;
 
       if (data && status === 201) {
-        toast("새로운 TASK가 생성되었습니다.", {
-          description: "나만의 TODO BOARD를 생성해보세요!",
+        toast("새로운 일정을 추가하였습니다.", {
+          description: "나만의 TODO LIST를 완성해보세요!",
         });
 
         // ✅ 새로 생성된 Todo는 '저장되지 않은 변경 상태'로 표시

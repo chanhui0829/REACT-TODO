@@ -15,8 +15,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        
-
+    
     }
 
     &__top {
@@ -37,42 +36,79 @@
             }
         }
     }
-    &__bottom{
+    &__bottom {
         width: 100%;
-
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column;
+    
+        &__group {
+          display: flex;
+          align-items: center;
+          justify-content: space-between; /* ✅ 큰 화면에서 왼쪽-오른쪽 배치 */
+          gap: 12px;
+    
+          @media (max-width: 768px) {
+            flex-direction: column; /* ✅ 모바일에서는 세로로 쌓기 */
+            align-items: stretch;
+            justify-content: center;
+            gap: 10px;
+    
+            button {
+              width: 100%; /* 버튼도 한 줄 */
+            }
+          }
+        }
+    
+        &__dates {
+          display: flex;
+          align-items: center;
+          gap: 12px;
 
-        flex-wrap: wrap;
-
-    }
+          
+    
+          @media (max-width: 768px) {
+            flex-direction: column; /* 📱 모바일에서는 세로로 */
+            align-items: stretch;
+            gap: 10px;
+          }
+        }
+      }
 }
 
 .body{
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; 
+    align-items: stretch; 
+    justify-content: flex-start;
 
     width: 100%;
-    height: calc(100% - 230px);
+    height: calc(100vh - 230px);
 
-    padding: 24px;
+    padding: 12px 64px;
 
-    &__isData{
-        
+    &__isData {
         width: 100%;
-        height: 100%;
-
+        flex: 1;
+        overflow-y: auto; 
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        
-
         gap: 16px;
-        overflow-y: scroll;
-    }
+    
+        padding-bottom: 24px; 
+        
+        // ✅ 모바일 대응
+        @media (max-width: 768px) {
+          height: calc(100vh - 280px); 
+          overflow-y: scroll;
+          -webkit-overflow-scrolling: touch; 
+          
+          gap: 12px;
+
+          padding-bottom: 160px;
+        }
+      }
     
     &__noData{
         width: 100%;

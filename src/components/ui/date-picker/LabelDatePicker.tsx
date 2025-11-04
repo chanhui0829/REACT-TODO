@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { format, isBefore } from "date-fns";
 import { ko as koDateFns } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react";
+import { Calendar1 } from "lucide-react";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
@@ -81,7 +81,7 @@ function LabelDatePicker({
 
   return (
     <div className="max-w-64 flex items-center gap-2">
-      <span className="text-sm font-medium leading-none text-[#6d6d6d]">
+      <span className="text-sm font-medium leading-none text-[#6d6d6d]  whitespace-nowrap">
         {label}
       </span>
 
@@ -95,7 +95,7 @@ function LabelDatePicker({
             )}
             disabled={label === "종료일" && !startDate} // 종료일 >시작일 미선택시 비활성화
           >
-            <CalendarIcon style={{ marginLeft: 8 + "px" }} />
+            <Calendar1 style={{ marginLeft: 8 + "px" }} />
             {value ? (
               <span>
                 {format(value, "yyyy.MM.dd (EEE)", { locale: koDateFns })}

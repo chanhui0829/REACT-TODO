@@ -100,62 +100,87 @@ function MarkdownDialog({ board, children }: Props) {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent style={{ padding: 12 + "px", margin: 24 + "px" }}>
+      <DialogContent
+        className="w-[700px] max-w-[92vw] sm:max-w-[90vw] md:w-[700px] rounded-lg overflow-y-auto max-h-[90vh]"
+        style={{ padding: 12 }}
+      >
+        {/* HEADER */}
         <DialogHeader>
           <DialogTitle>
-            <div className="flex items-center justify-start gap-2 ">
-              <p className="!font-semibold text-[15px] text-muted-foreground ">
+            {/* ✅ 제목 한 줄 유지 */}
+            <div className="flex !w-11/12 items-center justify-start gap-2 whitespace-nowrap">
+              <p className="font-semibold text-[14px] sm:text-[15px] text-muted-foreground">
                 제목 :
               </p>
               <input
                 type="text"
                 placeholder="게시물의 제목을 입력하세요."
-                className="w-7/8 text-[16px] outline-none bg-transparent border-1 rounded-sm !p-0.5 !pl-2 "
-                style={{ padding: 0 + "px" }}
+                className="flex-1 text-[14px] sm:text-[15px] font-normal outline-none bg-transparent border rounded-sm !pl-1 !py-0.5 "
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
             </div>
           </DialogTitle>
-          <DialogDescription style={{ marginTop: 16 + "px" }}>
+          <DialogDescription className="mt-4 text-[13px] sm:text-[14px] text-gray-500">
             마크다운 에디터를 사용하여 TODO-BOARD를 예쁘게 꾸며보세요.
           </DialogDescription>
         </DialogHeader>
-        {/* 캘린더박스 */}
-        <div className="flex items-center gap-5 ">
-          <LabelDatePicker
-            label="시작일"
-            value={startDate}
-            onChange={setStartDate}
-          />
-          <LabelDatePicker
-            label="종료일"
-            value={endDate}
-            onChange={setEndDate}
-            startDate={startDate}
+
+        {/* ✅ DATE PICKERS */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 mt-2">
+          <div className="flex-1">
+            <LabelDatePicker
+              label="시작일"
+              value={startDate}
+              onChange={setStartDate}
+            />
+          </div>
+          <div className="flex-1">
+            <LabelDatePicker
+              label="종료일"
+              value={endDate}
+              onChange={setEndDate}
+              startDate={startDate}
+            />
+          </div>
+        </div>
+
+        <Separator className="my-4" />
+
+        {/* ✅ MARKDOWN EDITOR */}
+        <div className="w-full">
+          <MDEditor
+            height={
+              typeof window !== "undefined" && window.innerWidth < 640
+                ? 220
+                : 320
+            }
+            value={content}
+            onChange={setContent}
           />
         </div>
-        <Separator />
-        {/* 마크다운 에디터 */}
 
-        <MDEditor height={320 + "px"} value={content} onChange={setContent} />
-        <DialogFooter>
-          <DialogClose asChild>
+        {/* ✅ FOOTER 버튼 한 줄 우측정렬 */}
+        <DialogFooter className="mt-4 flex justify-end gap-2">
+          <div className="flex">
+            <DialogClose asChild>
+              <Button
+                className="w-16 h-8 sm:h-9 text-[13px] sm:text-[14px]"
+                variant="outline"
+              >
+                취소
+              </Button>
+            </DialogClose>
+          </div>
+          <div className="flex">
             <Button
-              className="w-16"
-              variant={"outline"}
-              style={{ marginRight: 8 + "px" }}
+              type="submit"
+              className="w-16 h-8 sm:h-9 font-semibold bg-[#58A5E4] text-white hover:bg-[#5FB4F9]"
+              onClick={() => handleSubmit(board.id)}
             >
-              취소
+              등록
             </Button>
-          </DialogClose>
-          <Button
-            type={"submit"}
-            className="w-16 font-semibold bg-[#58A5E4] text-white hover:bg-[#5FB4F9] hover:text-white"
-            onClick={() => handleSubmit(board.id)}
-          >
-            등록
-          </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
