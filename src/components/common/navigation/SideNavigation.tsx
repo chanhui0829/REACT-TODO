@@ -26,7 +26,7 @@ function SideNavigation() {
   const [openDialog, setOpenDialog] = useState(false);
   const [nextTaskId, setNextTaskId] = useState<number | null>(null);
 
-  // ✅ 동일한 task 클릭 시에는 아무 동작 안 함
+  // 동일한 task 클릭 시에는 아무 동작 안 함
   const handleTaskClick = (taskId: number) => {
     if (taskId === Number(id)) return;
 
@@ -38,7 +38,7 @@ function SideNavigation() {
     }
   };
 
-  // ✅ 저장 후 이동 로직 (필수값 미입력 시 이동 금지)
+  // 저장 후 이동 로직 (필수값 미입력 시 이동 금지)
   const handleConfirmSave = async () => {
     if (onSave) {
       const success = await onSave();
@@ -51,7 +51,7 @@ function SideNavigation() {
     if (nextTaskId) router.push(`/task/${nextTaskId}`);
   };
 
-  // ✅ 저장 안 하고 이동 (현재 Task 삭제)
+  // 저장 안 하고 이동 (삭제 후 이동)
   const handleSkipSave = async () => {
     try {
       if (id) {
@@ -77,7 +77,7 @@ function SideNavigation() {
     }
   };
 
-  // ✅ Task 생성
+  // Task 생성
   const handleCreateTask = useCreateTask();
 
   const handleSearchTermChange = (
@@ -92,12 +92,11 @@ function SideNavigation() {
     }
   };
 
-  // ✅ getTasks는 컴포넌트 최초 렌더링 시 한번만 호출되어야 하므로 useEffect
   useEffect(() => {
     getTasks();
   }, [id]);
 
-  // ✅ 최신순으로 정렬된 배열 생성 (created_at 기준)
+  // 최신순으로 정렬된 배열 생성 (created_at 기준)
   const sortedTasks = [...tasks].sort(
     (a, b) =>
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime()

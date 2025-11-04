@@ -67,8 +67,6 @@ function MarkdownDialog({ board, children }: Props) {
   //===============================================supabase저장============================================
   // 등록 버튼 클릭 시
   const handleSubmit = async (boardId: string) => {
-    console.log("함수 호출");
-
     if (!title || !content) {
       toast("기입되지 않은 데이터(값)가 있습니다.", {
         description: "제목, 콘텐츠 값을 확인해주세요.",
@@ -101,13 +99,12 @@ function MarkdownDialog({ board, children }: Props) {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
-        className="w-[700px] max-w-[92vw] sm:max-w-[90vw] md:w-[700px] rounded-lg overflow-y-auto max-h-[90vh]"
+        className="!w-[800px] !max-w-[90vw] !sm:max-w-[80vw] !md:w-[600px] !max-h-[88vh] rounded-lg overflow-y-auto"
         style={{ padding: 12 }}
       >
         {/* HEADER */}
         <DialogHeader>
           <DialogTitle>
-            {/* ✅ 제목 한 줄 유지 */}
             <div className="flex !w-11/12 items-center justify-start gap-2 whitespace-nowrap">
               <p className="font-semibold text-[14px] sm:text-[15px] text-muted-foreground">
                 제목 :
@@ -126,7 +123,7 @@ function MarkdownDialog({ board, children }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        {/* ✅ DATE PICKERS */}
+        {/* DATE PICKERS */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 mt-2">
           <div className="flex-1">
             <LabelDatePicker
@@ -147,7 +144,7 @@ function MarkdownDialog({ board, children }: Props) {
 
         <Separator className="my-4" />
 
-        {/* ✅ MARKDOWN EDITOR */}
+        {/* MARKDOWN EDITOR */}
         <div className="w-full">
           <MDEditor
             height={
@@ -160,9 +157,9 @@ function MarkdownDialog({ board, children }: Props) {
           />
         </div>
 
-        {/* ✅ FOOTER 버튼 한 줄 우측정렬 */}
-        <DialogFooter className="mt-4 flex justify-end gap-2">
-          <div className="flex">
+        {/* FOOTER 버튼 한 줄 우측정렬 */}
+        <DialogFooter className="!flex !flex-row !justify-end">
+          <div className="flex gap-2">
             <DialogClose asChild>
               <Button
                 className="w-16 h-8 sm:h-9 text-[13px] sm:text-[14px]"
@@ -171,8 +168,6 @@ function MarkdownDialog({ board, children }: Props) {
                 취소
               </Button>
             </DialogClose>
-          </div>
-          <div className="flex">
             <Button
               type="submit"
               className="w-16 h-8 sm:h-9 font-semibold bg-[#58A5E4] text-white hover:bg-[#5FB4F9]"
