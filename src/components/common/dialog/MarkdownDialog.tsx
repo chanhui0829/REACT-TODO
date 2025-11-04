@@ -125,14 +125,14 @@ function MarkdownDialog({ board, children }: Props) {
 
         {/* DATE PICKERS */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 mt-2">
-          <div className="flex-1">
+          <div className="">
             <LabelDatePicker
               label="시작일"
               value={startDate}
               onChange={setStartDate}
             />
           </div>
-          <div className="flex-1">
+          <div className="">
             <LabelDatePicker
               label="종료일"
               value={endDate}

@@ -15,12 +15,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui";
 
-// react-day-picker 커스텀 ("월년" → "년월" 순서 변경)
 function CustomCaption({ displayMonth }: { displayMonth: Date }) {
   const year = format(displayMonth, "yyyy", { locale: koDateFns });
   const month = format(displayMonth, "M", { locale: koDateFns });
   return (
-    <div className="flex justify-center items-center py-2 font-medium text-[15px]">
+    <div className="flex justify-center items-center py-2 font-medium text-[14px] sm:text-[15px]">
       {year}년 {month}월
     </div>
   );
@@ -31,7 +30,6 @@ interface Props {
   readonly?: boolean;
   value: Date | undefined;
   onChange?: (date: Date | undefined) => void;
-  //시작일 값 (종료일 유효성 비교용)
   startDate?: Date | undefined;
 }
 
@@ -47,7 +45,6 @@ function LabelDatePicker({
   const handleSelect = (date: Date | undefined) => {
     if (!date) return;
 
-    // 시작일 미설정 상태에서 종료일 선택 차단
     if (label === "종료일" && !startDate) {
       toast("시작일을 먼저 선택해주세요 ⚠️", {
         description: "종료일은 시작일 이후에만 선택할 수 있습니다.",
@@ -56,7 +53,6 @@ function LabelDatePicker({
       return;
     }
 
-    // 종료일이 시작일보다 빠를 경우 방지
     if (label === "종료일" && startDate && isBefore(date, startDate)) {
       toast("날짜 선택 오류", {
         description: "종료일은 시작일 이후여야 합니다 ⚠️",
@@ -69,7 +65,6 @@ function LabelDatePicker({
   };
 
   const handleOpenChange = (isOpen: boolean) => {
-    // 종료일인데 시작일이 없는 경우, 열기 자체 막기
     if (label === "종료일" && !startDate && isOpen) {
       toast("시작일을 먼저 선택해주세요 ⚠️", {
         description: "시작일을 설정해야 종료일을 선택할 수 있습니다.",
@@ -80,50 +75,65 @@ function LabelDatePicker({
   };
 
   return (
-    <div className="max-w-64 flex items-center gap-2">
-      <span className="text-sm font-medium leading-none text-[#6d6d6d]  whitespace-nowrap">
+    <div className="flex flex-wrap items-center gap-2 w-full sm:max-w-64">
+      <span className="text-xs sm:text-sm font-medium text-[#6d6d6d] whitespace-nowrap">
         {label}
       </span>
 
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <Button
-            variant={"outline"}
+            variant="outline"
             className={cn(
-              "w-[200px] justify-start text-left font-normal",
+              "flex-1 min-w-[160px] max-w-[120px] sm:min-w-[180px] sm:max-w-[240px] justify-start text-left font-normal !px-2 !py-1 sm:py-2 text-xs sm:text-sm",
               !value && "text-muted-foreground"
             )}
-            disabled={label === "종료일" && !startDate} // 종료일 >시작일 미선택시 비활성화
+            disabled={label === "종료일" && !startDate}
           >
-            <Calendar1 style={{ marginLeft: 8 + "px" }} />
+            <Calendar1 className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1" />
             {value ? (
               <span>
                 {format(value, "yyyy.MM.dd (EEE)", { locale: koDateFns })}
               </span>
             ) : (
-              <span>날짜를 선택하세요.</span>
+              <span>날짜를 선택 해주세요.</span>
             )}
           </Button>
         </PopoverTrigger>
 
         {!readonly && (
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={value}
-              onSelect={handleSelect}
-              initialFocus
-              fromDate={new Date()}
-              locale={koDateFns}
-              disabled={
-                label === "종료일" && startDate
-                  ? { before: startDate } // 시작일 이전은 회색 처리
-                  : undefined
-              }
-              components={{
-                Caption: CustomCaption,
-              }}
-            />
+          <PopoverContent
+            side="bottom"
+            align="start"
+            sideOffset={4}
+            className="flex justify-center items-center w-[200px] sm:w-[240px] p-0 overflow-hidden"
+          >
+            <div className="origin-top justify-center scale-[0.9] sm:scale-100">
+              <Calendar
+                mode="single"
+                selected={value}
+                onSelect={handleSelect}
+                initialFocus
+                fromDate={new Date()}
+                locale={koDateFns}
+                disabled={
+                  label === "종료일" && startDate
+                    ? { before: startDate }
+                    : undefined
+                }
+                components={{ Caption: CustomCaption }}
+                classNames={{
+                  months: "flex flex-col sm:flex-row space-y-0 ",
+                  month: "space-y-2",
+                  caption_label: "text-sm sm:text-base font-medium",
+                  table: "w-full border-collapse space-y-1",
+                  head_row:
+                    "flex justify-center text-[10px] sm:text-xs text-zinc-400",
+                  row: "flex justify-between",
+                  cell: "text-[11px] sm:text-sm h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-md",
+                }}
+              />
+            </div>
           </PopoverContent>
         )}
       </Popover>
