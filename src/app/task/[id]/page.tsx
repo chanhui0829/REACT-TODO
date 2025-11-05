@@ -96,9 +96,14 @@ export default function TaskPage() {
   /** 🔹 Task 데이터 fetch 후 local state 반영 */
   useEffect(() => {
     if (task) {
-      setTitle(task.title ?? "");
-      setStartDate(task.start_date ? new Date(task.start_date) : undefined);
-      setEndDate(task.end_date ? new Date(task.end_date) : undefined);
+      setTitle((prev) => prev || task.title || "");
+      setStartDate(
+        (prev) =>
+          prev ?? (task.start_date ? new Date(task.start_date) : undefined)
+      );
+      setEndDate(
+        (prev) => prev ?? (task.end_date ? new Date(task.end_date) : undefined)
+      );
       setBoards(task.boards ?? []);
     }
   }, [task]);
