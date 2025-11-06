@@ -1,34 +1,68 @@
 "use client";
-// Hooks
-import { useGetTasks, useCreateTask, useSearch } from "@/hooks/apis";
-//UI Component
-import { Button, SearchBar } from "@/components/ui";
+
+// ======================
+// 📦 External
+// ======================
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Task } from "@/types";
 import { useAtom } from "jotai";
-import { isDirtyAtom, onSaveAtom } from "@/store/atoms";
-import { ConfirmNavigationDialog } from "@/components/ui/dialog/confirmnavigationdialog";
-import { toast } from "sonner";
-import { supabase } from "@/utils/supabase/client";
 import { CalendarPlus } from "lucide-react";
+import { toast } from "sonner";
 
+// ======================
+// 🧭 Hooks & Utils
+// ======================
+import { useGetTasks, useCreateTask, useSearch } from "@/hooks/apis";
+import { supabase } from "@/utils/supabase/client";
+
+// ======================
+// 🧱 UI Components
+// ======================
+import { Button, SearchBar } from "@/components/ui";
+import { ConfirmNavigationDialog } from "@/components/ui/dialog/confirmnavigationdialog";
+
+// ======================
+// 📘 Types & Store
+// ======================
+import type { Task } from "@/types";
+import { isDirtyAtom, onSaveAtom } from "@/store/atoms";
+
+// ======================
+// 🧩 Component
+// ======================
 function SideNavigation() {
   const router = useRouter();
   const { id } = useParams();
+
+  // hooks
   const { tasks, getTasks } = useGetTasks();
   const { search } = useSearch();
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const handleCreateTask = useCreateTask();
 
+  // jotai
   const [isDirty] = useAtom(isDirtyAtom);
   const [onSave] = useAtom(onSaveAtom);
 
+  // local state
+  const [searchTerm, setSearchTerm] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [nextTaskId, setNextTaskId] = useState<number | null>(null);
 
-  // 동일한 task 클릭 시에는 아무 동작 안 함
+  // ======================
+  // 🔍 검색 기능
+  // ======================
+  const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchTerm(e.target.value);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") search(searchTerm);
+  };
+
+  // ======================
+  // 🧭 페이지 이동 제어
+  // ======================
   const handleTaskClick = (taskId: number) => {
-    if (taskId === Number(id)) return;
+    if (taskId === Number(id)) return; // 같은 Task 클릭 시 무시
 
     if (isDirty) {
       setNextTaskId(taskId);
@@ -38,30 +72,27 @@ function SideNavigation() {
     }
   };
 
-  // 저장 후 이동 로직 (필수값 미입력 시 이동 금지)
+  // ✅ 저장 후 이동
   const handleConfirmSave = async () => {
     if (onSave) {
       const success = await onSave();
-      if (!success) {
-        // ❌ 필수값 누락 등으로 실패 시 이동하지 않음
-        return;
-      }
+      if (!success) return;
     }
+
     setOpenDialog(false);
     if (nextTaskId) router.push(`/task/${nextTaskId}`);
   };
 
-  // 저장 안 하고 이동 (삭제 후 이동)
+  // ❌ 저장 없이 이동 (현재 Task 삭제)
   const handleSkipSave = async () => {
     try {
       if (id) {
         const { error } = await supabase.from("tasks").delete().eq("id", id);
-        if (error) {
-          toast("삭제 중 오류가 발생했습니다.", {
+        if (error)
+          return toast("삭제 실패", {
             description: `Supabase 오류: ${error.message}`,
           });
-          return;
-        }
+
         toast("현재 TASK가 삭제되었습니다.", {
           description: "저장하지 않은 작업은 복구할 수 없습니다.",
         });
@@ -77,87 +108,76 @@ function SideNavigation() {
     }
   };
 
-  // Task 생성
-  const handleCreateTask = useCreateTask();
-
-  const handleSearchTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      search(searchTerm);
-    }
-  };
-
+  // ======================
+  // 🔁 Task Fetch
+  // ======================
   useEffect(() => {
     getTasks();
   }, [id]);
 
-  // 최신순으로 정렬된 배열 생성 (created_at 기준)
+  // 최신순 정렬
   const sortedTasks = [...tasks].sort(
     (a, b) =>
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 
+  // ======================
+  // 🧩 Render
+  // ======================
   return (
     <>
       <aside className="page__aside">
-        <div className="flex flex-col h-full gap-4">
-          {/* 검색창 UI */}
+        <div className="flex h-full flex-col gap-4">
+          {/* 검색창 */}
           <SearchBar
             placeholder="입력 후 Enter를 눌러주세요."
             onChange={handleSearchTermChange}
             onKeyDown={handleSearch}
           />
 
-          {/* Add New Page 버튼 UI */}
+          {/* 새 일정 추가 버튼 */}
           <Button
-            className="text-[#58A5E4] bg-white border border-[#58A5E4] hover:bg-[#F2F7FA] hover:shadow-md"
             onClick={handleCreateTask}
+            className="border border-[#58A5E4] bg-white text-[#58A5E4] hover:bg-[#F2F7FA] hover:shadow-md"
           >
-            <CalendarPlus /> 일정 추가
+            <CalendarPlus />
+            일정 추가
           </Button>
 
-          {/* Task 목록 UI */}
-          <div className="flex-1 mt-4 overflow-y-auto pr-1 pb-4 box-border">
-            <small className="text-sm font-medium leading-none text-[#a6a6a6] ">
+          {/* Task 목록 */}
+          <div className="!mt-2 flex-1 overflow-y-auto pr-1 pb-4 box-border">
+            <small className="text-sm font-medium leading-none text-[#a6a6a6]">
               <span className="text-neutral-700">Chan님</span>의 TASKs
             </small>
 
-            <ul className="flex flex-col gap-0.5 !mt-2">
+            <ul className="!mt-2 flex flex-col gap-0.5">
               {sortedTasks.length === 0 ? (
-                <li className="bg-[#f5f5f5] min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
-                  <div className="h-[6px] w-[6px] rounded-full bg-neutral-400 "></div>
+                <li className="flex min-h-9 items-center gap-2 rounded-sm bg-[#f5f5f5] px-[10px] py-2 text-sm text-neutral-400">
+                  <div className="h-[6px] w-[6px] rounded-full bg-neutral-400" />
                   등록된 Task가 없습니다.
                 </li>
               ) : (
                 sortedTasks.map((task: Task) => {
+                  const isActive = task.id === Number(id);
                   return (
                     <li
                       key={task.id}
                       onClick={() => handleTaskClick(task.id)}
-                      className={`${
-                        task.id === Number(id) && "!bg-[#f5f5f5]"
-                      } min-h-9 flex items-center !gap-2 !py-2 !px-[10px] rounded-sm text-sm cursor-pointer `}
+                      className={`flex min-h-9 cursor-pointer items-center gap-2 rounded-sm px-[10px] py-2 text-sm transition-all ${
+                        isActive ? "bg-[#f5f5f5]" : "hover:bg-gray-50"
+                      }`}
                     >
                       <div
-                        className={`${
-                          task.id === Number(id)
-                            ? "bg-[#00f38d]"
-                            : "bg-neutral-400"
-                        } h-[6px] w-[6px] rounded-full `}
-                      ></div>
-                      <span
-                        className={`${
-                          task.id !== Number(id)
-                            ? `text-neutral-400`
-                            : `text-neutral-800`
+                        className={`h-[6px] w-[6px] rounded-full ${
+                          isActive ? "bg-[#00f38d]" : "bg-neutral-400"
                         }`}
+                      />
+                      <span
+                        className={
+                          isActive ? "text-neutral-800" : "text-neutral-400"
+                        }
                       >
-                        {task.title ? task.title : "등록된 제목이 없습니다."}
+                        {task.title || "등록된 제목이 없습니다."}
                       </span>
                     </li>
                   );
@@ -168,6 +188,7 @@ function SideNavigation() {
         </div>
       </aside>
 
+      {/* 이동 시 확인 다이얼로그 */}
       <ConfirmNavigationDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
