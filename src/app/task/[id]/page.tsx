@@ -107,6 +107,7 @@ export default function TaskPage() {
     const updated = [...boards, newBoard];
     setBoards(updated);
     markDirty();
+
     await createBoard(taskId, "boards", updated);
   };
 
@@ -117,9 +118,13 @@ export default function TaskPage() {
     if (!task) return;
     setIsDirty(true);
 
-    setTitle(task.title || "");
-    setStartDate(task.start_date ? new Date(task.start_date) : undefined);
-    setEndDate(task.end_date ? new Date(task.end_date) : undefined);
+    setTitle((prev) => (prev ? prev : task.title || ""));
+    setStartDate((prev) =>
+      prev ? prev : task.start_date ? new Date(task.start_date) : undefined
+    );
+    setEndDate((prev) =>
+      prev ? prev : task.end_date ? new Date(task.end_date) : undefined
+    );
     setBoards(task.boards ?? []);
   }, [task]);
 
