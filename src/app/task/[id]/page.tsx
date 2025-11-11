@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
 // ======================
 // 📦 External & React
 // ======================
-import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { nanoid } from "nanoid";
-import Image from "next/image";
-import { useSetAtom } from "jotai";
+import { useParams, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { nanoid } from 'nanoid';
+import Image from 'next/image';
+import { useSetAtom } from 'jotai';
 
 // ======================
 // 🧭 Hooks & Utils
 // ======================
-import { useGetTaskById, useCreateBoard, useGetTasks } from "@/hooks/apis";
-import { supabase } from "@/utils/supabase/client";
-import { isDirtyAtom, onSaveAtom } from "@/store/atoms";
+import { useGetTaskById, useCreateBoard, useGetTasks } from '@/hooks/apis';
+import { supabase } from '@/utils/supabase/client';
+import { isDirtyAtom, onSaveAtom } from '@/store/atoms';
 
 // ======================
 // 🧱 UI & Components
 // ======================
-import { Button, LabelDatePicker, Progress } from "@/components/ui";
-import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
-import { BoardCard, DeleteTaskPopup } from "@/components/common";
+import { Button, LabelDatePicker, Progress } from '@/components/ui';
+import { ChevronLeft } from 'lucide-react';
+import { toast } from 'sonner';
+import { BoardCard, DeleteTaskPopup } from '@/components/common';
 
 // ======================
 // 🎨 Styles & Types
 // ======================
-import styles from "./page.module.scss";
-import type { Board } from "@/types";
+import styles from './page.module.scss';
+import type { Board } from '@/types';
 
 // ======================
 // 🧩 Component
@@ -48,7 +48,7 @@ export default function TaskPage() {
   const setOnSave = useSetAtom(onSaveAtom);
 
   // local state
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [boards, setBoards] = useState<Board[]>([]);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
@@ -59,33 +59,33 @@ export default function TaskPage() {
   // ======================
   const handleSave = useCallback(async (): Promise<boolean> => {
     if (!title || !startDate || !endDate) {
-      toast("필수 항목을 입력해주세요.", {
-        description: "제목, 시작일, 종료일은 모두 입력해야 합니다.",
+      toast('필수 항목을 입력해주세요.', {
+        description: '제목, 시작일, 종료일은 모두 입력해야 합니다.',
       });
       return false;
     }
 
     try {
       const { error } = await supabase
-        .from("tasks")
+        .from('tasks')
         .update({
           title,
           start_date: startDate,
           end_date: endDate,
         })
-        .eq("id", taskId);
+        .eq('id', taskId);
 
       if (error) throw error;
 
-      toast("TASK 저장 완료!", {
-        description: "수정한 TASK가 정상적으로 반영되었습니다.",
+      toast('TASK 저장 완료!', {
+        description: '수정한 TASK가 정상적으로 반영되었습니다.',
       });
 
       setIsDirty(false);
       getTasks();
       return true;
     } catch {
-      toast("저장 실패", { description: "네트워크 오류" });
+      toast('저장 실패', { description: '네트워크 오류' });
       return false;
     }
   }, [taskId, title, startDate, endDate, getTasks, setIsDirty]);
@@ -99,16 +99,16 @@ export default function TaskPage() {
     const newBoard: Board = {
       id: nanoid(),
       isCompleted: false,
-      title: "",
+      title: '',
       startDate: undefined,
       endDate: undefined,
-      content: "",
+      content: '',
     };
     const updated = [...boards, newBoard];
     setBoards(updated);
     markDirty();
 
-    await createBoard(taskId, "boards", updated);
+    await createBoard(taskId, 'boards', updated);
   };
 
   // ======================
@@ -116,16 +116,25 @@ export default function TaskPage() {
   // ======================
   useEffect(() => {
     if (!task) return;
-    setIsDirty(true);
 
-    setTitle((prev) => (prev ? prev : task.title || ""));
-    setStartDate((prev) =>
-      prev ? prev : task.start_date ? new Date(task.start_date) : undefined
-    );
-    setEndDate((prev) =>
-      prev ? prev : task.end_date ? new Date(task.end_date) : undefined
-    );
+    // 새로 추가된 task이거나, 제목/날짜가 비어있는 경우 → 초기화
+    const isNewTask = !task.title && !task.start_date && !task.end_date;
+
+    if (isNewTask) {
+      setTitle('');
+      setStartDate(undefined);
+      setEndDate(undefined);
+      setBoards([]);
+      setIsDirty(true);
+      return;
+    }
+
+    // 기존 task 불러오기
+    setTitle(task.title || '');
+    setStartDate(task.start_date ? new Date(task.start_date) : undefined);
+    setEndDate(task.end_date ? new Date(task.end_date) : undefined);
     setBoards(task.boards ?? []);
+    setIsDirty(false);
   }, [task]);
 
   // 저장 함수 전역 등록
@@ -150,12 +159,12 @@ export default function TaskPage() {
       {/* 상단 헤더 */}
       <div className={styles.header}>
         {/* 버튼 영역 */}
-        <div className={styles["header__btn-box"]}>
+        <div className={styles['header__btn-box']}>
           <Button
             variant="outline"
             size="icon"
             className="text-gray-400"
-            onClick={() => router.push("/")}
+            onClick={() => router.push('/')}
           >
             <ChevronLeft />
           </Button>
@@ -165,9 +174,7 @@ export default function TaskPage() {
               저장
             </Button>
             <DeleteTaskPopup>
-              <Button className="w-12 bg-red-100 text-rose-600 hover:bg-rose-300">
-                삭제
-              </Button>
+              <Button className="w-12 bg-red-100 text-rose-600 hover:bg-rose-300">삭제</Button>
             </DeleteTaskPopup>
           </div>
         </div>
@@ -197,8 +204,8 @@ export default function TaskPage() {
 
         {/* 날짜 선택 + 추가 버튼 */}
         <div className={styles.header__bottom}>
-          <div className={styles["header__bottom__group"]}>
-            <div className={styles["header__bottom__dates"]}>
+          <div className={styles['header__bottom__group']}>
+            <div className={styles['header__bottom__dates']}>
               <LabelDatePicker
                 label="시작일"
                 value={startDate}
@@ -243,12 +250,7 @@ export default function TaskPage() {
               버튼을 클릭하여 내용을 추가해보세요!
             </small>
             <button onClick={handleAddBoard}>
-              <Image
-                src="/assets/images/button.svg"
-                width={74}
-                height={74}
-                alt="rounded-button"
-              />
+              <Image src="/assets/images/button.svg" width={74} height={74} alt="rounded-button" />
             </button>
           </div>
         )}
