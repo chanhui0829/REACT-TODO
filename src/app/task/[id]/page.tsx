@@ -116,10 +116,9 @@ export default function TaskPage() {
   // ======================
   useEffect(() => {
     if (!task) return;
-
-    // 새로 추가된 task이거나, 제목/날짜가 비어있는 경우 → 초기화
+  
     const isNewTask = !task.title && !task.start_date && !task.end_date;
-
+  
     if (isNewTask) {
       setTitle('');
       setStartDate(undefined);
@@ -128,12 +127,17 @@ export default function TaskPage() {
       setIsDirty(true);
       return;
     }
-
-    // 기존 task 불러오기
+  
+    // 🛑 boards는 dirty가 아니어야만 덮어쓴다!
     setTitle(task.title || '');
     setStartDate(task.start_date ? new Date(task.start_date) : undefined);
     setEndDate(task.end_date ? new Date(task.end_date) : undefined);
-    setBoards(task.boards ?? []);
+  
+    setBoards((prev) => {
+      if (prev.length === 0) return task.boards ?? [];
+      return prev; // 👈 사용자가 보드 수정 중이면 덮어쓰지 않음
+    });
+  
     setIsDirty(false);
   }, [task]);
 
